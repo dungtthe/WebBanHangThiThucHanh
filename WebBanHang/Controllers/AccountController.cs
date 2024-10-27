@@ -16,14 +16,13 @@ namespace WebBanHang.Controllers
 
         [TempData]
         public string ErrorMessage {  get; set; }
-
-        [HttpGet]
+        [HttpGet("/login")]
         public IActionResult Login()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("/login")]
         public IActionResult Login(AppUser user)
         {
             SessionHelpers.Clear(HttpContext);
