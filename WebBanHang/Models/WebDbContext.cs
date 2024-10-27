@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Xml;
 
 namespace WebBanHang.Models
 {
@@ -9,6 +10,15 @@ namespace WebBanHang.Models
         public WebDbContext(DbContextOptions<WebDbContext> options) : base(options)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                .Property(e => e.Images)
+                .HasDefaultValue("[\"no_img.png\"]");
+
+            base.OnModelCreating(modelBuilder);
         }
         public DbSet<AppUser>AppUsers { get; set; }
         public DbSet<Role> Roles { get; set; }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBanHang.Models
@@ -17,9 +19,16 @@ namespace WebBanHang.Models
         [Required]
         public int? Price { get; set; }
 
+        public string ?Images {  get; set; }
+
         [Required]
         public int CategoryId {  get; set; }
         [ForeignKey(nameof(CategoryId))]
         public Category ?Category { get; set; }
+    }
+
+    public static class ImageDefault
+    {
+        public static string ImageDefaul = JsonConvert.SerializeObject(new string[] { });
     }
 }

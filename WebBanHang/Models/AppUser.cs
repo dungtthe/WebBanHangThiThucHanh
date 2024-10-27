@@ -9,6 +9,10 @@ namespace WebBanHang.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(500)]
+        public string ?Name { get; set; }
+
         [Required(ErrorMessage="Tên tài khoản không được để trống")]
         [Column(TypeName = "varchar")]
         [StringLength(30, MinimumLength = 6, ErrorMessage = "Tên tài khoản phải có từ 6 đến 30 ký tự")]

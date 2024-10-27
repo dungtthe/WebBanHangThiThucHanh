@@ -1,9 +1,18 @@
-INSERT INTO Roles (RoleName) VALUES
+﻿INSERT INTO Roles (RoleName) VALUES
 (N'Admin'),
 (N'Customer');
 
 
-INSERT INTO AppUsers (UserName, Password, Email, PhoneNumber, RoleId) VALUES
-('admin', '123456', NULL, NULL, 1),
-('khachhang', '123456', NULL, NULL, 2);
+INSERT INTO AppUsers (Name,UserName, Password, Email, PhoneNumber, RoleId) VALUES
+(N'Dũng Nè','admin', '123456', NULL, NULL, 1),
+(N'Nguyễn Văn A','khachhang', '123456', NULL, NULL, 2);
+
+
+INSERT INTO Categories(Name) VALUES
+(N'Thức ăn'),
+(N'Đồ uống');
+
+INSERT INTO Products(Name,Price,CategoryId) VALUES
+(N'Sản phẩm 1',10000,1),
+(N'Sản phẩm 2',20000,2);
 

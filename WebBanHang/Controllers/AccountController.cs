@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebBanHang.Helpers;
 using WebBanHang.Models;
 using WebBanHang.Security;
@@ -33,6 +34,7 @@ namespace WebBanHang.Controllers
             {
                 SessionHelpers.SetUserId(HttpContext,u.Id);
                 SessionHelpers.SetRoleName(HttpContext,u.Role.RoleName);
+                TempData["Name"] = u.Name;
                 if (u.Role.RoleName == RolesConst.Admin)
                 {
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
@@ -44,6 +46,14 @@ namespace WebBanHang.Controllers
             }
             ErrorMessage = "Thông tin đăng nhập không đúng";
             return RedirectToAction("Login");
+        }
+
+
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            SessionHelpers.Clear(HttpContext);
+            return RedirectToAction("Login", "Account");
         }
 
     }
