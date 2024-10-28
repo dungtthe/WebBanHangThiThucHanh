@@ -30,6 +30,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 		}
 
 		// GET: Admin/Product/Details/5
+		[HttpGet("details")]
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null || _context.Products == null)
