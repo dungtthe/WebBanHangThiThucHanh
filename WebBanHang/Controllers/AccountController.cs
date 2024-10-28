@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebBanHang.Helpers;
 using WebBanHang.Models;
 using WebBanHang.Security;
+using WebBanHang.ViewModel;
 
 namespace WebBanHang.Controllers
 {
@@ -64,10 +66,36 @@ namespace WebBanHang.Controllers
 
         }
 
-        [HttpGet("/Register")]
+        [HttpGet("/register")]
         public IActionResult Register()
         {
             return View();
+        }
+
+
+
+
+        [HttpPost("/register")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([Bind("Name,UserName,Password,Email")] RegisterViewModel registerViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var appUser = new AppUser
+                {
+                    Name = registerViewModel.Name,
+                    UserName = registerViewModel.UserName,
+                    Password = registerViewModel.Password,
+                    Email = registerViewModel.Email,
+                    IsLock = false,
+                    RoleId = 2 // hoặc ID phù hợp cho vai trò mặc định
+                };
+
+                _context.Add(appUser);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Login", "Account");
+            }
+            return View(registerViewModel);
         }
 
     }
