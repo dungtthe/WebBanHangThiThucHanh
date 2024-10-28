@@ -1,0 +1,38 @@
+﻿@model WebBanHang.Models.Product
+@using Newtonsoft.Json;
+
+@{
+	ViewData["Title"] = "Chi tiết sản phẩm";
+	Layout = "~/Areas/Customer/Views/Shared/_Layout.cshtml";
+	string[] listImg = Model.Images != null
+			? JsonConvert.DeserializeObject<string[]>(Model.Images)
+			: new string[] { "no_img.png" };
+}
+<h2>Chi tiết sản phẩm</h2>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="d-flex flex-wrap justify-content-center">
+				@foreach (var im in listImg)
+				{
+					<div class="p-2">
+						<img src="~/images/products/@im" alt="Product Image" class="img-thumbnail rounded shadow-sm" style="width: 150px; height: 150px; object-fit: cover;" />
+					</div>
+				}
+			</div>
+		</div>
+		<div class="col-md-6">
+			<dl class="row">
+				<dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+				<dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+				<dt class="col-sm-4">@Html.DisplayNameFor(model => model.Price)</dt>
+				<dd class="col-sm-8">@Html.DisplayFor(model => model.Price)</dd>
+
+				<dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quantity)</dt>
+				<dd class="col-sm-8">@Html.DisplayFor(model => model.Quantity)</dd>
+			</dl>
+		</div>
+
+	</div>
+</div>
