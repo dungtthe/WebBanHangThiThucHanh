@@ -1,11 +1,17 @@
 ﻿@model WebBanHang.Models.Product
-
+@using Newtonsoft.Json;
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+
+    string[] listImg = Model.Images != null
+       ? JsonConvert.DeserializeObject<string[]>(Model.Images)
+       : new string[] { "no_img.png" };
+
 }
 
-<h1>Edit</h1>
+<h1>@ViewData["Title"]</h1>
 
 <h4>Product</h4>
 <hr />
@@ -26,8 +32,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="Images" class="control-label"></label>
-                <input asp-for="Images" class="form-control" />
-                <span asp-validation-for="Images" class="text-danger"></span>
+                <br />
+                <div class="d-flex flex-wrap">
+                    @foreach (var im in listImg)
+                    {
+                        <div class="p-2">
+                            <img src="~/images/products/@im" alt="Product Image" class="img-thumbnail rounded shadow-sm img-fluid" style="width: 100px; height: 100px; object-fit: cover;" />
+                        </div>
+                    }
+                </div>
+                <br />
+                <a asp-area="Admin" asp-controller="Product" asp-action="UploadPhoto" asp-route-id="@Model.Id" class="btn" style="background: green !important; color: white !important;">Upload ảnh</a>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>

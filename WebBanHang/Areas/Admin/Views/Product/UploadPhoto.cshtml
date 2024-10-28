@@ -1,0 +1,17 @@
+﻿@model WebBanHang.ViewModel.UploadOneFile
+
+@{
+    Product product = ViewData["product"] as Product;
+}
+
+<h1>Upload ảnh cho: @product.Name</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <label asp-for="@Model.FileUpload"></label>
+    <input asp-for="@Model.FileUpload" />
+    <span asp-validation-for="@Model.FileUpload"></span>
+
+    <button class="btn btn-primary" asp-area="Admin" asp-controller="Product" asp-action="UploadPhoto" asp-route-id="@product.Id">Upload</button>
+</form>
+
+

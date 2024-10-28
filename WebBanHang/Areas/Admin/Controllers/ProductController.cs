@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebBanHang.Helpers;
 using WebBanHang.Models;
 using WebBanHang.Security;
+using WebBanHang.ViewModel;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
@@ -70,8 +72,10 @@ namespace WebBanHang.Areas.Admin.Controllers
 			return View(product);
 		}
 
-		// GET: Admin/Product/Edit/5
-		public async Task<IActionResult> Edit(int? id)
+
+
+        [HttpGet("edit")]
+        public async Task<IActionResult> Edit(int? id)
 		{
 			if (id == null || _context.Products == null)
 			{
@@ -90,7 +94,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 		// POST: Admin/Product/Edit/5
 		// To protect from overposting attacks, enable the specific properties you want to bind to.
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
+		[HttpPost("edit")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Images,CategoryId")] Product product)
 		{
@@ -166,5 +170,58 @@ namespace WebBanHang.Areas.Admin.Controllers
 		{
 			return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
 		}
-	}
+
+
+
+
+
+        [HttpGet("uploadphoto")]
+        public IActionResult UploadPhoto(int id)
+        {
+            var product = _context.Products.Where(e => e.Id == id)
+                .FirstOrDefault();
+            if (product == null)
+            {
+                return NotFound("Không có sản phẩm");
+            }
+            ViewData["product"] = product;
+            return View(new UploadOneFile());
+        }
+
+
+        [HttpPost("uploadphoto"), ActionName("UploadPhoto")]
+        public async Task<IActionResult> UploadPhotoAsync(int id, [Bind("FileUpload")] UploadOneFile f)
+        {
+            var product = _context.Products.Where(e => e.Id == id)
+                .FirstOrDefault();
+
+            if (product == null)
+            {
+                return NotFound("Không có sản phẩm");
+            }
+
+            ViewData["product"] = product;
+
+            if (f != null)
+            {
+                // fileName random
+                var fileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName())
+                     + Path.GetExtension(f.FileUpload.FileName);
+                var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "products");
+                var filePath = Path.Combine(wwwRootPath, fileName);
+
+                using (var filestream = new FileStream(filePath, FileMode.Create))
+                {
+                    await f.FileUpload.CopyToAsync(filestream);
+                }
+
+
+				var imgs = Utils.AddPhotoForProduct(fileName, product.Images);
+				product.Images = imgs;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Edit), new { id = id });
+        }
+
+    }
 }
