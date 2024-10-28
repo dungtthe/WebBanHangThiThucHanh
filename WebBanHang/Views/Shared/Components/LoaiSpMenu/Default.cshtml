@@ -1,4 +1,11 @@
-﻿
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var request = HttpContextAccessor.HttpContext.Request;
+    var baseUrl = $"{request.Scheme}://{request.Host}/api";
+}
+
+
 @model IEnumerable<Category>
 <div class="col-lg-3">
     <div class="hero__categories">
@@ -9,9 +16,7 @@
         <ul>
             @foreach (var item in Model)
             {
-                @* <li><a asp-controller="Home" asp-action="SanPhamTheoLoai" asp-route-maloai="@item.MaLoai">@item.Loai</a></li> *@
-           
-                var getUrl = "https://localhost:7066/api/productapi/" + item.Id;
+                var getUrl = $"{baseUrl}/productapi/{item.Id}";
                 <li><a style="cursor:pointer" onclick="showProductByCategory('@getUrl')">@item.Name</a></li>
             }
 
@@ -33,7 +38,9 @@
                     str += '<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">';
                     str += '<div class="featured__item">';
 
-                     var linkImage = "../ProductsImages/Images/" + $.trim(val.anhDaiDien);
+                    var listImg = val.images ? JSON.parse(val.images) : ["no_img.png"];
+                    var firstImg = listImg.length > 0 ? listImg[0] : "no_img.png";
+                    var linkImage = "../images/products/" + $.trim(firstImg);
 
                     str += '<div class="featured__item__pic set-bg" data-setbg="';
                     str += linkImage;
@@ -49,11 +56,13 @@
 
                     str += '<div class="featured__item__text">';
                     str += '<h6><a href="/Home/ChiTietSanPham?maSp=';
-                    str += $.trim(val.maSp);
+                    str += $.trim(val.id);
                     str += '">';
-                    str += $.trim(val.tenSp);
+                    str += $.trim(val.name);
                     str += '</a></h6><h5>';
-                    str += val.giaNhoNhat.toString();
+                    console.log(val.price);
+                    str += val.price.toString();
+
                     str += '</h5></div></div></div>';
                 });
 
@@ -64,6 +73,7 @@
             }
         });
     }
+
 
 
 </script>

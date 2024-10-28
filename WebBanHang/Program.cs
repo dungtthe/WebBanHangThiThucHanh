@@ -27,6 +27,8 @@ builder.Services.AddSession(options =>
 });
 
 
+builder.Services.AddHttpContextAccessor(); // Đăng ký IHttpContextAccessor để hỗ trợ lấy base url
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
