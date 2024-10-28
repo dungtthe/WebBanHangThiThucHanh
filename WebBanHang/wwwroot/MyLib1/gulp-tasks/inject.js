@@ -55,7 +55,7 @@ gulp.task('replacePath', function () {
     var replacePath1 = gulp.src('pages/**/*.html', {
             base: "./"
         })
-        .pipe(replace('src="assets/images/', 'src="../../assets/images/'))
+        .pipe(replace('src="assets/images/', 'src="../../MyLib1/assets/images/'))
         .pipe(replace('href="pages/', 'href="../../pages/'))
         .pipe(replace('href="index.html"', 'href="../../index.html"'))
         .pipe(gulp.dest('.'));

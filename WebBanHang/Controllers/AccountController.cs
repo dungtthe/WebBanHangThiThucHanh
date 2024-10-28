@@ -64,7 +64,7 @@ namespace WebBanHang.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("/Register")]
         public IActionResult Register()
         {
             return View();
