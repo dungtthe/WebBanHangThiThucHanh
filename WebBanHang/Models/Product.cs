@@ -15,20 +15,18 @@ namespace WebBanHang.Models
         [Required]
         [MaxLength(250)]
         [MinLength(5)]
+        [DisplayName("Tên sản phẩm")]
         public string ?Name { get; set; }
         [Required]
+        [DisplayName("Giá")]
         public int? Price { get; set; }
 
         public string ?Images {  get; set; }
 
         [Required]
+        [DisplayName("Loại sản phẩm")]
         public int CategoryId {  get; set; }
         [ForeignKey(nameof(CategoryId))]
         public Category ?Category { get; set; }
-    }
-
-    public static class ImageDefault
-    {
-        public static string ImageDefaul = JsonConvert.SerializeObject(new string[] { });
     }
 }

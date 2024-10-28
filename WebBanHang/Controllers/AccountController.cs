@@ -34,7 +34,6 @@ namespace WebBanHang.Controllers
             {
                 SessionHelpers.SetUserId(HttpContext,u.Id);
                 SessionHelpers.SetRoleName(HttpContext,u.Role.RoleName);
-                TempData["Name"] = u.Name;
                 if (u.Role.RoleName == RolesConst.Admin)
                 {
                     return RedirectToAction("Index", "Home", new { area = "Admin" });

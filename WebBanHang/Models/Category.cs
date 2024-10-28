@@ -14,7 +14,6 @@ namespace WebBanHang.Models
         [MaxLength(250)]
         [MinLength(5)]
         public string? Name { get; set; }
-
         public List<Product>? Products { get; set; }
     }
 }

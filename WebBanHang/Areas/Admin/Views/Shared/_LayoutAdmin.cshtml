@@ -2,10 +2,18 @@
 @using WebBanHang.Helpers;
 @inject WebDbContext _context
 @using Newtonsoft.Json
+@using WebBanHang.Helpers;
 
 @addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    string Name = TempData["Name"] as string;
+    int? userId = SessionHelpers.GetUserId(Context);
+    AppUser appUser = null;
+    if (userId != null)
+    {
+        appUser = _context.AppUsers.FirstOrDefault(x => x.Id == userId);
+    }
+    var Message = TempData["Message"] as string;
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +29,12 @@
 <body>
     <div class="container-scroller">
         <div class="row">
+            @if (!string.IsNullOrEmpty(Message))
+            {
+                <h4 class="alert alert-danger">
+                    @Message
+                </h4>
+            }
             <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                     <a class="navbar-brand brand-logo" href="../../index.html"><img src="../../MyLib1/assets/images/logo.svg" alt="logo" /></a>
@@ -30,22 +44,16 @@
                     <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                         <span class="mdi mdi-menu"></span>
                     </button>
-                    <div class="search-field d-none d-md-block">
-                        <form class="d-flex align-items-center h-100" action="#">
-                            <div class="input-group">
-                                <div class="input-group-prepend bg-transparent">
-                                    <i class="input-group-text border-0 mdi mdi-magnify"></i>
-                                </div>
-                                <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
-                            </div>
-                        </form>
-                    </div>
-                    <ul class="navbar-nav navbar-nav-right" >
+                    <ul class="navbar-nav navbar-nav-right">
                         <li class="nav-item nav-profile dropdown">
-                            <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                Xin chào @Name
-                            </a>
-                            <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown" >
+
+                            @if (appUser != null)
+                            {
+                                <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Xin chào @appUser.Name
+                                </a>
+                            }
+                            <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
                                 <a class="dropdown-item" asp-action="Logout" asp-controller="Account">
                                     <i class="mdi mdi-logout me-2 text-primary">Đăng xuất</i>
                                 </a>
@@ -65,7 +73,10 @@
                         <li class="nav-item nav-profile">
                             <a href="#" class="nav-link">
                                 <div class="nav-profile-text d-flex flex-column">
-                                    <span class="font-weight-bold mb-2">David Grey. H</span>
+                                    @if (appUser != null)
+                                    {
+                                        <span class="font-weight-bold mb-2">@appUser.Name</span>
+                                    }
                                 </div>
                                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
                             </a>
@@ -84,8 +95,8 @@
                             </a>
                             <div class="collapse" id="ui-basic">
                                 <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"> <a class="nav-link" asp-area="admin" asp-controller="HomeAdmin" asp-action="DanhMucSanPham">Danh mục sản phẩm</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/typography.html">Typography</a></li>
+                                    <li class="nav-item"> <a class="nav-link" asp-area="Admin" asp-controller="Product" asp-action="Index">Danh sách sản phẩm</a></li>
+                                    <li class="nav-item"> <a class="nav-link" asp-area="Admin" asp-controller="Category" asp-action="Index">Danh mục sản phẩm</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -94,7 +105,7 @@
                 <!-- partial -->
                 <div class="main-panel">
                     <div class="content-wrapper">
-                        @RenderBody();
+                        @RenderBody()
                     </div>
 
                     <footer class="footer">
@@ -112,6 +123,6 @@
     <script src="../../MyLib1/assets/js/off-canvas.js"></script>
     <script src="../../MyLib1/assets/js/hoverable-collapse.js"></script>
     <script src="../../MyLib1/assets/js/misc.js"></script>
-
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
