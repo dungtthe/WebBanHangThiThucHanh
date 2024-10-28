@@ -7,7 +7,12 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
 <p>
     <a asp-action="Create">Thêm danh mục mới</a>
 </p>
