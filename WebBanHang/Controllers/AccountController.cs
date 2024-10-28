@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebBanHang.Helpers;
@@ -64,11 +65,26 @@ namespace WebBanHang.Controllers
 
         }
 
-        [HttpGet("/Register")]
+        [HttpGet("/register")]
         public IActionResult Register()
         {
             return View();
         }
 
+
+    
+
+        [HttpPost("/register")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([Bind("Name,UserName,Password,Email")] AppUser appUser)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(appUser);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Login", "Account");
+            }
+            return RedirectToAction("Register", "Account");
+        }
     }
 }
