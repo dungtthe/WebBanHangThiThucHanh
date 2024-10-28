@@ -12,7 +12,7 @@ using WebBanHang.Models;
 namespace WebBanHang.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20241028045611_initdb")]
+    [Migration("20241028051505_initdb")]
     partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

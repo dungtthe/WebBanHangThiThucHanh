@@ -60,7 +60,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 
 		[HttpPost("create")]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Id,Name,Price,Images,CategoryId")] Product product)
+		public async Task<IActionResult> Create([Bind("Id,Name,Price,Quantity,Images,CategoryId")] Product product)
 		{
 			if (ModelState.IsValid)
 			{
@@ -97,7 +97,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost("edit")]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Images,CategoryId")] Product product)
+		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Quantity,Images,CategoryId")] Product product)
 		{
 			if (id != product.Id)
 			{
