@@ -4,7 +4,6 @@
     ViewData["Title"] = "Chỉnh sửa sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 
-
     string[] listImg = Model.Images != null
        ? JsonConvert.DeserializeObject<string[]>(Model.Images)
        : new string[] { "no_img.png" };

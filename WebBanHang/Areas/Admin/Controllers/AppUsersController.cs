@@ -13,52 +13,52 @@ using WebBanHang.ViewModel;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [AdminAuthorizationFilter]
-    [Route("admin/user")]
-    public class AppUsersController : Controller
-    {
-        private readonly WebDbContext _context;
+	[Area("Admin")]
+	[AdminAuthorizationFilter]
+	[Route("admin/user")]
+	public class AppUsersController : Controller
+	{
+		private readonly WebDbContext _context;
 
-        public AppUsersController(WebDbContext context)
-        {
-            _context = context;
-        }
+		public AppUsersController(WebDbContext context)
+		{
+			_context = context;
+		}
 
-        [HttpGet("")]
-        public async Task<IActionResult> Index()
-        {
-            var webDbContext = _context.AppUsers.Include(a => a.Role);
-            return View(await webDbContext.ToListAsync());
-        }
+		[HttpGet("")]
+		public async Task<IActionResult> Index()
+		{
+			var webDbContext = _context.AppUsers.Include(a => a.Role);
+			return View(await webDbContext.ToListAsync());
+		}
 
-        // GET: Admin/AppUsers/Details/5
-        [HttpGet("details")]
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.AppUsers == null)
-            {
-                return NotFound();
-            }
+		// GET: Admin/AppUsers/Details/5
+		[HttpGet("details")]
+		public async Task<IActionResult> Details(int? id)
+		{
+			if (id == null || _context.AppUsers == null)
+			{
+				return NotFound();
+			}
 
-            var appUser = await _context.AppUsers
-                .Include(a => a.Role)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (appUser == null)
-            {
-                return NotFound();
-            }
+			var appUser = await _context.AppUsers
+				.Include(a => a.Role)
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (appUser == null)
+			{
+				return NotFound();
+			}
 
-            return View(appUser);
-        }
+			return View(appUser);
+		}
 
-        // GET: Admin/AppUsers/Create
-        [HttpGet("create")]
-        public IActionResult Create()
-        {
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "RoleName");
-            return View();
-        }
+		// GET: Admin/AppUsers/Create
+		[HttpGet("create")]
+		public IActionResult Create()
+		{
+			ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "RoleName");
+			return View();
+		}
 
         // POST: Admin/AppUsers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -109,50 +109,48 @@ namespace WebBanHang.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var appUser = await _context.AppUsers.FindAsync(id);
-            if (appUser == null)
-            {
-                return NotFound();
-            }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "RoleName", appUser.RoleId);
-            return View(appUser);
-        }
+			var user = await _context.Products.FindAsync(id);
+			if (user == null)
+			{
+				return NotFound();
+			}
+			return View(user);
+		}
 
-        // POST: Admin/AppUsers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,UserName,Password,Email,PhoneNumber,IsLock,RoleId")] AppUser appUser)
-        {
-            if (id != appUser.Id)
-            {
-                return NotFound();
-            }
+		// POST: Admin/Product/Edit/5
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost("edit")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,UserName,Password,PhoneNumber,IsLock,RoleId")] AppUser user)
+		{
+			if (id != user.Id)
+			{
+				return NotFound();
+			}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(appUser);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AppUserExists(appUser.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "RoleName", appUser.RoleId);
-            return View(appUser);
-        }
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					_context.Update(user);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!AppUserExists(user.Id))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			return View(user);
+		}
 
         // GET: Admin/AppUsers/Delete/5
         [HttpGet("delete")]
