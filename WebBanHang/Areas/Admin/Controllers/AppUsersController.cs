@@ -30,6 +30,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         // GET: Admin/AppUsers/Details/5
+        [HttpGet("Admin/AppUsers/details")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.AppUsers == null)
@@ -49,6 +50,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         // GET: Admin/AppUsers/Create
+        [HttpGet("Admin/AppUsers/Create")]
         public IActionResult Create()
         {
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "RoleName");
@@ -58,7 +60,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         // POST: Admin/AppUsers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Admin/AppUsers/Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,UserName,Password,Email,PhoneNumber,IsLock,RoleId")] AppUser appUser)
         {
