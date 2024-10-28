@@ -20801,22 +20801,22 @@ dl {
 
 
 /* Kiểm soát container ảnh */
-.image-container-delete {
+/*.image-container-delete {
     position: relative;
     width: 100px;
     height: 100px;
 }
 
     .image-container-delete img {
-        width: 100%; /* Chiếm toàn bộ không gian container */
-        height: 100%;
+        width: 100%;*/ /* Chiếm toàn bộ không gian container */
+        /*height: 100%;
         object-fit: cover;
         border-radius: 8px;
-        transition: opacity 0.3s ease; /* Hiệu ứng mờ */
-    }
+        transition: opacity 0.3s ease;*/ /* Hiệu ứng mờ */
+    /*}*/
 
     /* Lớp phủ chỉ hiển thị khi hover vào ảnh */
-    .image-container-delete .overlay {
+    /*.image-container-delete .overlay {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -20825,21 +20825,21 @@ dl {
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.6); /* Màu nền mờ */
-        color: white;
+        background-color: rgba(0, 0, 0, 0.6);*/ /* Màu nền mờ */
+        /*color: white;
         font-weight: bold;
         font-size: 14px;
         border-radius: 8px;
-        opacity: 0; /* Ẩn mặc định */
-        transition: opacity 0.3s ease;
+        opacity: 0;*/ /* Ẩn mặc định */
+        /*transition: opacity 0.3s ease;
         cursor: pointer;
-    }
+    }*/
 
     /* Hiệu ứng hover */
-    .image-container-delete:hover .overlay {
-        opacity: 1; /* Hiển thị lớp phủ */
-    }
+    /*.image-container-delete:hover .overlay {
+        opacity: 1;*/ /* Hiển thị lớp phủ */
+    /*}
 
     .image-container-delete img {
-        opacity: 0.3; /* Làm mờ ảnh */
-    }
+        opacity: 0.3;*/ /* Làm mờ ảnh */
+    /*}*/
