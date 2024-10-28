@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Net.WebSockets;
 using WebBanHang.Helpers;
 using WebBanHang.Models;
 using WebBanHang.Security;
@@ -81,22 +82,31 @@ namespace WebBanHang.Controllers
         {
             if (ModelState.IsValid)
             {
-                var appUser = new AppUser
-                {
-                    Name = registerViewModel.Name,
-                    UserName = registerViewModel.UserName,
-                    Password = registerViewModel.Password,
-                    Email = registerViewModel.Email,
-                    IsLock = false,
-                    RoleId = 2 // hoặc ID phù hợp cho vai trò mặc định
-                };
 
-                _context.Add(appUser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Login", "Account");
+                var checkUser = Utils.CheckTonTaiUserNameAndEmail(registerViewModel.UserName,registerViewModel.Email,_context);
+                if (!checkUser)
+                {
+                    var appUser = new AppUser
+                    {
+                        Name = registerViewModel.Name,
+                        UserName = registerViewModel.UserName,
+                        Password = registerViewModel.Password,
+                        Email = registerViewModel.Email,
+                        IsLock = false,
+                        RoleId = 2 
+                    };
+                    _context.Add(appUser);
+                    await _context.SaveChangesAsync();
+                    ErrorMessage = "Đăng ký thành công";
+                    return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+                    ErrorMessage = "Tên tài khoản hoặc Email đã tồn tại";
+                }
             }
             return View(registerViewModel);
-        }
 
+        }
     }
 }

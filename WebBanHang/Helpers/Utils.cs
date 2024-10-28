@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
+using WebBanHang.Models;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace WebBanHang.Helpers
@@ -43,6 +44,11 @@ namespace WebBanHang.Helpers
             }
 
             return JsonConvert.SerializeObject(images);
+        }
+
+        public static bool CheckTonTaiUserNameAndEmail(string username, string email, WebDbContext context)
+        {
+            return context.AppUsers.Any(user => user.UserName == username || user.Email == email);
         }
 
     }

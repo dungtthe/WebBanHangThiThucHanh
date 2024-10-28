@@ -33,10 +33,16 @@
                 <div class="row flex-grow">
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left p-5">
-                            <div class="brand-logo">
-                                <img src="../../MyLib1/assets/images/logo.svg">
-                            </div>
-                            <h4>New here?</h4>
+                            @if (!string.IsNullOrEmpty(ErrorMessage))
+                            {
+                                <h4 class="alert alert-danger">
+                                    @ErrorMessage
+                                </h4>
+                            }
+                            else
+                            {
+                                <h4>Đăng nhập</h4>
+                            }
                             <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
                             <form asp-action="Register" method="post" class="pt-3">
                                 <div class="form-group">
