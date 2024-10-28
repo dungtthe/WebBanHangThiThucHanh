@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using WebBanHang.Helpers;
 using WebBanHang.Models;
 using WebBanHang.Security;
+using WebBanHang.ViewModel;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
@@ -62,17 +65,40 @@ namespace WebBanHang.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,UserName,Password,Email,PhoneNumber,IsLock,RoleId")] AppUser appUser)
+        public async Task<IActionResult> Create([Bind("Name,UserName,Password,Email,PhoneNumber,RoleId")] CreateAppUserViewModel appUserViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(appUser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var checkUser = Utils.CheckTonTaiUserNameAndEmail(appUserViewModel.UserName, appUserViewModel.Email, _context);
+
+                if (!checkUser)
+                {
+                    var appUser = new AppUser
+                    {
+                        Name = appUserViewModel.Name,
+                        UserName = appUserViewModel.UserName,
+                        Password = appUserViewModel.Password,
+                        Email = appUserViewModel.Email,
+                        PhoneNumber = appUserViewModel.PhoneNumber,
+                        RoleId = appUserViewModel.RoleId,
+                        IsLock = false
+                    };
+                    _context.Add(appUser);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Tên tài khoản hoặc email đã tồn tại.");
+                    ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "RoleName", 1);
+                    return View(appUserViewModel);
+                }
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "RoleName", appUser.RoleId);
-            return View(appUser);
+
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "RoleName", 1);
+            return View(appUserViewModel);
         }
+
 
         // GET: Admin/AppUsers/Edit/5
         [HttpGet("Edit")]
@@ -162,14 +188,14 @@ namespace WebBanHang.Areas.Admin.Controllers
             {
                 _context.AppUsers.Remove(appUser);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AppUserExists(int id)
         {
-          return (_context.AppUsers?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.AppUsers?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
