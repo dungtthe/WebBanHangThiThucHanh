@@ -45,11 +45,14 @@
 
                             @if (im != "no_img.png")
                             {
-                                <img onclick="deleteImage('@im')" src="~/images/products/@im" alt="Product Image" class="img-thumbnail rounded shadow-sm img-fluid" style="width: 100px; height: 100px; object-fit: cover;" />
+                                <div class="image-container-delete">
+                                    <img src="~/images/products/@im" alt="Product Image" class="img-thumbnail rounded shadow-sm img-fluid" style="width: 100px; height: 100px; object-fit: cover;" />
+                                    <div class="overlay" onclick="deleteImage('@im')">Xóa</div>
+                                </div>
                             }
                             else
                             {
-                                <img  src="~/images/products/@im" alt="Product Image" class="img-thumbnail rounded shadow-sm img-fluid" style="width: 100px; height: 100px; object-fit: cover;" />
+                                <img src="~/images/products/@im" alt="Product Image" class="img-thumbnail rounded shadow-sm img-fluid" style="width: 100px; height: 100px; object-fit: cover;" />
                             }
                         </div>
                     }
@@ -74,20 +77,22 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
 
 <script>
     function deleteImage(imageName) {
         if (confirm("Bạn có chắc chắn muốn xóa ảnh này không?")) {
             $.ajax({
-                url: '/admin/product/deleteimage', 
+                url: '/admin/product/deleteimage',
                 type: 'DELETE',
                 data: JSON.stringify({ fileName: imageName, productId: @Model.Id }),
                 contentType: 'application/json',
                 success: function (response) {
                     alert("Ảnh đã được xóa thành công.");
-                    location.reload(); 
+                    location.reload();
                 },
                 error: function (xhr, status, error) {
                     alert("Có lỗi xảy ra khi xóa ảnh: " + error);
