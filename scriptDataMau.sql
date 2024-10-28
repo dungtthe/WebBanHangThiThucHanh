@@ -5,9 +5,9 @@ INSERT INTO Roles (RoleName) VALUES
 (N'Customer');
 
 
-INSERT INTO AppUsers (Name,UserName, Password, Email, PhoneNumber, RoleId) VALUES
-(N'Dũng Nè','admin', '123456', NULL, NULL, 1),
-(N'Nguyễn Văn A','khachhang', '123456', NULL, NULL, 2);
+INSERT INTO AppUsers (Name,UserName, Password, Email, PhoneNumber, RoleId,IsLock) VALUES
+(N'Dũng Nè','admin', '123456', NULL, NULL, 1,0),
+(N'Nguyễn Văn A','khachhang', '123456', NULL, NULL, 2,0);
 
 
 INSERT INTO Categories(Name) VALUES

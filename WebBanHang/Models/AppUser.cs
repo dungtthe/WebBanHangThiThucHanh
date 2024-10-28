@@ -33,6 +33,9 @@ namespace WebBanHang.Models
         public string? PhoneNumber {  get; set; }
 
         [Required]
+        public bool IsLock {  get; set; }
+
+        [Required]
         public int RoleId { get; set; }
 
         [ForeignKey("RoleId")]

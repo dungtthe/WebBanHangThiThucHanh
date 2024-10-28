@@ -12,7 +12,7 @@ using WebBanHang.Models;
 namespace WebBanHang.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20241028051505_initdb")]
+    [Migration("20241028062719_initdb")]
     partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace WebBanHang.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsLock")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
