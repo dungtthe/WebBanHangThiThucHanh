@@ -212,5 +212,35 @@ namespace WebBanHang.Areas.Admin.Controllers
             return RedirectToAction(nameof(Edit), new { id = id });
         }
 
+
+
+        [HttpDelete("deleteimage")]
+        public IActionResult DeleteImage([FromBody] DeleteImageRequest request)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Id == request.ProductId);
+            if (string.IsNullOrEmpty(request.FileName) || product == null)
+            {
+                return BadRequest("Có lỗi xảy ra.");
+            }
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "products", request.FileName);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+
+			product.Images=Utils.RemovePhotoForProduct(request.FileName, product.Images);
+			_context.SaveChanges();
+			
+            return Ok(new { message = "Ảnh đã được xóa thành công." });
+        }
+
+		//bổ trợ xóa ảnh
+        public class DeleteImageRequest
+        {
+            public string FileName { get; set; }
+            public int ProductId { get; set; }
+        }
     }
 }

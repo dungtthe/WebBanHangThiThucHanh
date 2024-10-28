@@ -29,5 +29,21 @@ namespace WebBanHang.Helpers
             return JsonConvert.SerializeObject(images);
         }
 
+
+        public static string RemovePhotoForProduct(string fileName, string imgPre)
+        {
+            string[] s = JsonConvert.DeserializeObject<string[]>(imgPre);
+            List<string> images = new List<string>(s);
+
+            images.Remove(fileName);
+
+            if (images.Count == 0)
+            {
+                images.Add("no_img.png");
+            }
+
+            return JsonConvert.SerializeObject(images);
+        }
+
     }
 }
