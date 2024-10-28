@@ -124,32 +124,13 @@ namespace WebBanHang.Areas.Admin.Controllers
 		}
 
 		// GET: Admin/Product/Delete/5
+
+		[HttpGet("delete")]
 		public async Task<IActionResult> Delete(int? id)
-		{
-			if (id == null || _context.Products == null)
-			{
-				return NotFound();
-			}
-
-			var product = await _context.Products
-				.Include(p => p.Category)
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (product == null)
-			{
-				return NotFound();
-			}
-
-			return View(product);
-		}
-
-		// POST: Admin/Product/Delete/5
-		[HttpPost, ActionName("Delete")]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
 			if (_context.Products == null)
 			{
-				return Problem("Entity set 'WebDbContext.Products'  is null.");
+				return Problem("Không có sản phẩm nào");
 			}
 			var product = await _context.Products.FindAsync(id);
 			if (product != null)
@@ -161,6 +142,13 @@ namespace WebBanHang.Areas.Admin.Controllers
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index));
 		}
+
+		// POST: Admin/Product/Delete/5
+		/*[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+		}*/
 
 		private bool ProductExists(int id)
 		{

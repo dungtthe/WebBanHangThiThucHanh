@@ -1,49 +1,54 @@
 ﻿@model IEnumerable<WebBanHang.Models.Product>
 
 @{
-    ViewData["Title"] = "Danh sách sản phẩm";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+	ViewData["Title"] = "Danh sách sản phẩm";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
-
+@if (TempData["Message"] != null)
+{
+	<div class="alert alert-success">
+		@TempData["Message"]
+	</div>
+}
 <p>
-    <a asp-action="Create">Thêm sản phẩm mới</a>
+	<a asp-action="Create">Thêm sản phẩm mới</a>
 </p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                Tên sản phẩm
-            </th>
-            <th>
-                Giá
-            </th>
-            <th>
-                Loại sản phẩm
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.Name)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				Tên sản phẩm
+			</th>
+			<th>
+				Giá
+			</th>
+			<th>
+				Loại sản phẩm
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Price)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Category.Name)
+				</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a> |
+					<a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+					<a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
