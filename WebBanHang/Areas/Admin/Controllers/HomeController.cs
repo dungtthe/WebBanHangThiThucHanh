@@ -14,7 +14,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         [Route("home")]
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "AppUsers");
         }
     }
 }

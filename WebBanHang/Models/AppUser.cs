@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBanHang.Models
@@ -33,6 +34,7 @@ namespace WebBanHang.Models
         public string? PhoneNumber {  get; set; }
 
         [Required]
+        [DisplayName("Trạng thái")]
         public bool IsLock {  get; set; }
 
         [Required]
