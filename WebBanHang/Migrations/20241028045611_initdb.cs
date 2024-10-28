@@ -42,6 +42,7 @@ namespace WebBanHang.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
                     Images = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "[\"no_img.png\"]"),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },

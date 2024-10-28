@@ -20,7 +20,10 @@ namespace WebBanHang.Models
         [Required]
         [DisplayName("Giá")]
         public int? Price { get; set; }
-        [DisplayName("Hình ảnh")]
+		[Required]
+		[DisplayName("Số lượng")]
+		public int? Quantity { get; set; }
+		[DisplayName("Hình ảnh")]
         public string ?Images {  get; set; }
 
         [Required]

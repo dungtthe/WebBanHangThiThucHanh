@@ -1,4 +1,6 @@
-﻿INSERT INTO Roles (RoleName) VALUES
+﻿
+USE WebDb;
+INSERT INTO Roles (RoleName) VALUES
 (N'Admin'),
 (N'Customer');
 
@@ -12,7 +14,7 @@ INSERT INTO Categories(Name) VALUES
 (N'Thức ăn'),
 (N'Đồ uống');
 
-INSERT INTO Products(Name,Price,CategoryId) VALUES
-(N'Sản phẩm 1',10000,1),
-(N'Sản phẩm 2',20000,2);
+INSERT INTO Products(Name,Price,CategoryId,Quantity) VALUES
+(N'Sản phẩm 1',10000,1,25),
+(N'Sản phẩm 2',20000,2,50);
 

@@ -106,6 +106,10 @@ namespace WebBanHang.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<int?>("Quantity")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");

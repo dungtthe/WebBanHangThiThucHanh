@@ -12,7 +12,7 @@ using WebBanHang.Models;
 namespace WebBanHang.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20241027185518_initdb")]
+    [Migration("20241028045611_initdb")]
     partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,6 +105,10 @@ namespace WebBanHang.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<int?>("Price")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Quantity")
                         .IsRequired()
                         .HasColumnType("int");
 
