@@ -32,28 +32,28 @@ namespace WebBanHang.Areas.Admin.Controllers
 			return View(await webDbContext.ToListAsync());
 		}
 
-		// GET: Admin/AppUsers/Details/5
-		[HttpGet("details")]
-		public async Task<IActionResult> Details(int? id)
-		{
-			if (id == null || _context.AppUsers == null)
-			{
-				return NotFound();
-			}
+        // GET: Admin/AppUsers/Details/5
+        [HttpGet("details")]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.AppUsers == null)
+            {
+                return NotFound();
+            }
 
-			var appUser = await _context.AppUsers
-				.Include(a => a.Role)
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (appUser == null)
-			{
-				return NotFound();
-			}
+            var appUser = await _context.AppUsers
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (appUser == null)
+            {
+                return NotFound();
+            }
 
-			return View(appUser);
-		}
+            return View(appUser);
+        }
 
-		// GET: Admin/AppUsers/Create
-		[HttpGet("create")]
+        // GET: Admin/AppUsers/Create
+        [HttpGet("create")]
 		public IActionResult Create()
 		{
 			ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "RoleName");
@@ -152,42 +152,20 @@ namespace WebBanHang.Areas.Admin.Controllers
 			return View(user);
 		}
 
-        // GET: Admin/AppUsers/Delete/5
         [HttpGet("delete")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.AppUsers == null)
-            {
-                return NotFound();
-            }
-
-            var appUser = await _context.AppUsers
-                .Include(a => a.Role)
+            var user = await _context.AppUsers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (appUser == null)
+            if (user == null)
             {
                 return NotFound();
             }
-
-            return View(appUser);
-        }
-
-        // POST: Admin/AppUsers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.AppUsers == null)
+            else
             {
-                return Problem("Entity set 'WebDbContext.AppUsers'  is null.");
+                _context.AppUsers.Remove(user);
+                await _context.SaveChangesAsync();
             }
-            var appUser = await _context.AppUsers.FindAsync(id);
-            if (appUser != null)
-            {
-                _context.AppUsers.Remove(appUser);
-            }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
